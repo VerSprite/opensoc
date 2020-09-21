@@ -1,0 +1,36 @@
+version: "2"
+services:
+  cortex:
+    image: thehiveproject/cortex:latest
+    container_name: versprite-cortex
+    depends_on:
+      - elasticsearch
+    ports:
+      - "0.0.0.0:9001:9001"
+    networks:
+      - elasticsearch-net
+
+  thehive:
+    image: thehiveproject/thehive:latest
+    container_name: versprite-hive
+    depends_on:
+      - elasticsearch
+      - cortex
+    ports:
+      - "0.0.0.0:9000:9000"
+    command: --cortex-port 9001
+    environment:
+      - es-hostname=elasticsearch-node1
+      - es-url=https://elasticsearch-node1:9200
+    volumes:
+      - ./thehive/application.conf:/etc/thehive/application.conf
+      - ./thehive/hive-keystore.jks:/private/hive-keystore.jks
+      - ./thehive/truststore.jks:/private/truststore.jks
+    networks:
+      - elasticsearch-net
+volumes:
+  elasticsearch-data1:
+  elasticsearch-data2:
+
+networks:
+  elasticsearch-net:
