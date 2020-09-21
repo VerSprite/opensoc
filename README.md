@@ -1,17 +1,15 @@
 # Create SSL
-### cd ssl & bash create.sh
+### cd ssl & bash create.sh "PassWord"
 
 # Deploy Docker image
 ## From Main Directory
 ### docker-compose up
 
-# Setup admin
-### docker exec -it elasticsearch-node1 /bin/bash
-### bash kickstart.sh
+# Setup admin for each node
+### docker exec -it elasticsearch-node$ /bin/bash
+### bash kickstarttrust.sh
 ### exit
-### docker exec -it elasticsearch-node2 /bin/bash
-### bash kickstart.sh
-### exit
+
 
 Access Kibana at https://IPADDRESS:5601
 
