@@ -11,7 +11,7 @@ services:
       - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -42,7 +42,7 @@ services:
       - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -70,7 +70,7 @@ services:
       - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -98,7 +98,7 @@ services:
       - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"
       - network.host=0.0.0.0
     ulimits:
       memlock:
@@ -116,7 +116,7 @@ services:
       - elasticsearch-net
 
   elasticsearch-node5:
-    build: ./elasticsearch-node4/elasticsearch-node5-docker
+    build: ./elasticsearch-node5/elasticsearch-node5-docker
     image: elasticsearch/node5
     container_name: elasticsearch-node5
     restart: unless-stopped
@@ -126,7 +126,7 @@ services:
       - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"
       - network.host=0.0.0.0
     ulimits:
       memlock:
