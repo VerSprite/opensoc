@@ -28,7 +28,7 @@ opendistro_security.ssl.transport.keystore_type: JKS
 opendistro_security.ssl.transport.keystore_filepath: node-keystore.jks
 opendistro_security.ssl.transport.keystore_password:
 opendistro_security.ssl.transport.truststore_type:
-opendistro_security.ssl.transport.truststore_filepath:node-truststore.jks
+opendistro_security.ssl.transport.truststore_filepath: node-truststore.jks
 opendistro_security.ssl.transport.truststore_password:
 ## Rest
 opendistro_security.ssl.http.keystore_type: JKS
@@ -51,6 +51,7 @@ opendistro_security.nodes_dn:
   - "CN=elasticsearch-node2,O=eminent,L=city,ST=ST,C=US"
   - "CN=elasticsearch-node3,O=eminent,L=city,ST=ST,C=US"
   - "CN=elasticsearch-node4,O=eminent,L=city,ST=ST,C=US"
+  - "CN=elasticsearch-node5,O=eminent,L=city,ST=ST,C=US"
   - "CN=versprite-hive,O=eminent,L=city,ST=ST,C=US"
   - "CN=versprite-cortex,O=eminent,L=city,ST=ST,C=US"
   - "CN=versprite-shuffle,O=eminent,L=city,ST=ST,C=US"
