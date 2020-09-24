@@ -8,7 +8,7 @@ services:
     environment:
       - cluster.name=elasticsearch-cluster
       - node.name=elasticsearch-node1
-      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
@@ -35,10 +35,11 @@ services:
     build: ./elasticsearch-node2/elasticsearch-node2-docker
     image: elasticsearch/node2
     container_name: elasticsearch-node2
+    restart: unless-stopped
     environment:
       - cluster.name=elasticsearch-cluster
       - node.name=elasticsearch-node2
-      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -62,10 +63,11 @@ services:
     build: ./elasticsearch-node3/elasticsearch-node3-docker
     image: elasticsearch/node3
     container_name: elasticsearch-node3
+    restart: unless-stopped
     environment:
       - cluster.name=elasticsearch-cluster
       - node.name=elasticsearch-node3
-      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -89,10 +91,11 @@ services:
     build: ./elasticsearch-node4/elasticsearch-node4-docker
     image: elasticsearch/node4
     container_name: elasticsearch-node4
+    restart: unless-stopped
     environment:
       - cluster.name=elasticsearch-cluster
       - node.name=elasticsearch-node4
-      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
       - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -112,9 +115,38 @@ services:
     networks:
       - elasticsearch-net
 
+  elasticsearch-node5:
+    build: ./elasticsearch-node4/elasticsearch-node5-docker
+    image: elasticsearch/node5
+    container_name: elasticsearch-node5
+    restart: unless-stopped
+    environment:
+      - cluster.name=elasticsearch-cluster
+      - node.name=elasticsearch-node5
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2,elasticsearch-node3,elasticsearch-node4,elasticsearch-node5
+      - cluster.initial_master_nodes=elasticsearch-node1,elasticsearch-node2
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - ./elasticsearch-node5/data5:/usr/share/elasticsearch/data
+      - ./supplements/netty-tcnative-openssl-1.1.0j-static-2.0.20.Final-fedora-linux-x86_64.jar:/usr/share/elasticsearch/plugins/opendistro_security/netty-tcnative-openssl-1.1.0j-static-2.0.20.Final-fedora-linux-x86_64.jar
+      - ./elasticsearch-node5/securityconfig:/usr/share/elasticsearch/plugins/opendistro_security/securityconfig/
+        #- ./supplements/performance-analyzer.properties:/usr/share/elasticsearch/plugins/opendistro_performance_analyzer/pa_config/performance-analyzer.properties
+    networks:
+      - elasticsearch-net
+
   kibana:
     image: amazon/opendistro-for-elasticsearch-kibana:1.9.0
     container_name: kibana
+    restart: unless-stopped
     ports:
       - 5601:5601
     expose:

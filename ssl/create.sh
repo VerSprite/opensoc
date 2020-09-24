@@ -45,6 +45,14 @@ openssl x509 -req -in node4.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreate
 openssl x509 -req -in node4.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out node4.crt -extfile node4.cnf
 openssl pkcs12 -export -chain -CAfile root-ca.pem -in node4.crt -inkey node4-key.pem -passout pass:$1 > node4.p12
 
+# node5 cert
+openssl genrsa -out node5-key-temp.pem 4096
+openssl pkcs8 -inform PEM -outform PEM -in node5-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out node5-key.pem
+openssl req -new -key node5-key.pem -out node5.csr -config node5.cnf
+openssl x509 -req -in node5.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out node5.pem -extfile node5.cnf
+openssl x509 -req -in node5.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out node5.crt -extfile node5.cnf
+openssl pkcs12 -export -chain -CAfile root-ca.pem -in node5.crt -inkey node5-key.pem -passout pass:$1 > node5.p12
+
 # Kibana cert
 openssl genrsa -out kibana-key-temp.pem 4096
 openssl pkcs8 -inform PEM -outform PEM -in kibana-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out kibana-key.pem
@@ -76,6 +84,7 @@ openssl pkcs12 -export -out node1.pkcs12 -in node1.pem -inkey node1-key.pem -pas
 openssl pkcs12 -export -out node2.pkcs12 -in node2.pem -inkey node2-key.pem -passout pass:$1
 openssl pkcs12 -export -out node3.pkcs12 -in node3.pem -inkey node3-key.pem -passout pass:$1
 openssl pkcs12 -export -out node4.pkcs12 -in node4.pem -inkey node4-key.pem -passout pass:$1
+openssl pkcs12 -export -out node5.pkcs12 -in node4.pem -inkey node5-key.pem -passout pass:$1
 openssl pkcs12 -export -out hive.pkcs12 -in hive.pem -inkey hive-key.pem -passout pass:$1
 openssl pkcs12 -export -out shuffle.pkcs12 -in shuffle.pem -inkey shuffle-key.pem -passout pass:$1
 
@@ -87,6 +96,7 @@ keytool -importcert -alias node1 -file node1.crt -keystore truststore.jks -store
 keytool -importcert -alias node2 -file node2.crt -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias node3 -file node3.crt -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias node4 -file node4.crt -keystore truststore.jks -storepass $1 -noprompt
+keytool -importcert -alias node5 -file node5.crt -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias kibana -file kibana.crt -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias hive -file hive.crt -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias shuffle -file shuffle.crt -keystore truststore.jks -storepass $1 -noprompt
@@ -96,6 +106,7 @@ keytool -importkeystore -srckeystore node1.pkcs12 -srcstoretype pkcs12 -destkeys
 keytool -importkeystore -srckeystore node2.pkcs12 -srcstoretype pkcs12 -destkeystore node2-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
 keytool -importkeystore -srckeystore node3.pkcs12 -srcstoretype pkcs12 -destkeystore node3-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
 keytool -importkeystore -srckeystore node4.pkcs12 -srcstoretype pkcs12 -destkeystore node4-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
+keytool -importkeystore -srckeystore node5.pkcs12 -srcstoretype pkcs12 -destkeystore node5-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
 keytool -importkeystore -srckeystore hive.pkcs12 -srcstoretype pkcs12 -destkeystore hive-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
 
 
@@ -104,4 +115,5 @@ cp {root-ca.pem,root-ca-key.pem,node1.pem,node1-key.pem,admin.pem,admin-key.pem,
 cp {root-ca.pem,root-ca-key.pem,node2.pem,node2-key.pem,admin.pem,admin-key.pem,truststore.jks,node2-keystore.jks,admin-keystore.jks} ../elasticsearch-node2/elasticsearch-node2-docker/
 cp {root-ca.pem,root-ca-key.pem,node3.pem,node3-key.pem,admin.pem,admin-key.pem,truststore.jks,node3-keystore.jks,admin-keystore.jks} ../elasticsearch-node3/elasticsearch-node3-docker/
 cp {root-ca.pem,root-ca-key.pem,node4.pem,node4-key.pem,admin.pem,admin-key.pem,truststore.jks,node4-keystore.jks,admin-keystore.jks} ../elasticsearch-node4/elasticsearch-node4-docker/
+cp {root-ca.pem,root-ca-key.pem,node5.pem,node4-key.pem,admin.pem,admin-key.pem,truststore.jks,node5-keystore.jks,admin-keystore.jks} ../elasticsearch-node4/elasticsearch-node5-docker/
 cp {root-ca.pem,root-ca-key.pem,hive.pem,hive-key.pem,admin.pem,admin-key.pem,truststore.jks,hive-keystore.jks,admin-keystore.jks} ../thehive/
