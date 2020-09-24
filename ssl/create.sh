@@ -84,7 +84,7 @@ openssl pkcs12 -export -out node1.pkcs12 -in node1.pem -inkey node1-key.pem -pas
 openssl pkcs12 -export -out node2.pkcs12 -in node2.pem -inkey node2-key.pem -passout pass:$1
 openssl pkcs12 -export -out node3.pkcs12 -in node3.pem -inkey node3-key.pem -passout pass:$1
 openssl pkcs12 -export -out node4.pkcs12 -in node4.pem -inkey node4-key.pem -passout pass:$1
-openssl pkcs12 -export -out node5.pkcs12 -in node4.pem -inkey node5-key.pem -passout pass:$1
+openssl pkcs12 -export -out node5.pkcs12 -in node5.pem -inkey node5-key.pem -passout pass:$1
 openssl pkcs12 -export -out hive.pkcs12 -in hive.pem -inkey hive-key.pem -passout pass:$1
 openssl pkcs12 -export -out shuffle.pkcs12 -in shuffle.pem -inkey shuffle-key.pem -passout pass:$1
 
