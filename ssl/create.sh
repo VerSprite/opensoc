@@ -69,6 +69,15 @@ openssl x509 -req -in hive.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreates
 openssl x509 -req -in hive.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out hive.crt -extfile hive.cnf
 openssl pkcs12 -export -chain -CAfile root-ca.pem -in hive.crt -inkey hive-key.pem -passout pass:$1 > hive.p12
 
+# hive cert
+openssl genrsa -out vector-key-temp.pem 4096
+openssl pkcs8 -inform PEM -outform PEM -in hive-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out hive-key.pem
+openssl req -new -key vector.pem -out vector.csr -config vectir.cnf
+openssl x509 -req -in vector.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out vector.pem -extfile vector.cnf
+openssl x509 -req -in vector.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out hive.crt -extfile vector.cnf
+openssl pkcs12 -export -chain -CAfile root-ca.pem -in vector.crt -inkey vector-key.pem -passout pass:$1 > vector.p12
+
+
 # shuffle cert
 openssl genrsa -out shuffle-key-temp.pem 4096
 openssl pkcs8 -inform PEM -outform PEM -in shuffle-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out shuffle-key.pem
@@ -77,7 +86,7 @@ openssl x509 -req -in shuffle.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcrea
 openssl x509 -req -in shuffle.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out shuffle.crt -extfile shuffle.cnf
 openssl pkcs12 -export -chain -CAfile root-ca.pem -in shuffle.crt -inkey shuffle-key.pem -passout pass:$1 > shuffle.p12
 
-# Keystore And Truststores
+## Keystore And Truststores
 openssl pkcs12 -export -out root-ca.pkcs12 -in root-ca.pem -inkey root-ca-key.pem -passout pass:$1
 openssl pkcs12 -export -out admin.pkcs12 -in admin.pem -inkey admin-key.pem -passout pass:$1
 openssl pkcs12 -export -out node1.pkcs12 -in node1.pem -inkey node1-key.pem -passout pass:$1
@@ -88,7 +97,7 @@ openssl pkcs12 -export -out node5.pkcs12 -in node5.pem -inkey node5-key.pem -pas
 openssl pkcs12 -export -out hive.pkcs12 -in hive.pem -inkey hive-key.pem -passout pass:$1
 openssl pkcs12 -export -out shuffle.pkcs12 -in shuffle.pem -inkey shuffle-key.pem -passout pass:$1
 
-#keytool -importkeystore -srckeystore root-ca.pkcs12 -srcstoretype pkcs12 -destkeystore root-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
+keytool -importkeystore -srckeystore root-ca.pkcs12 -srcstoretype pkcs12 -destkeystore root-keystore.jks -deststoretype JKS -srcstorepass $1 -storepass $1 -file root-ca.pem -noprompt
 #Truststores
 keytool -importcert -v -trustcacerts -alias root -file root-ca.pem -keystore truststore.jks -storepass $1 -noprompt
 keytool -importcert -alias admin -file admin.crt -keystore truststore.jks -storepass $1 -noprompt
@@ -115,5 +124,5 @@ cp {root-ca.pem,root-ca-key.pem,node1.pem,node1-key.pem,admin.pem,admin-key.pem,
 cp {root-ca.pem,root-ca-key.pem,node2.pem,node2-key.pem,admin.pem,admin-key.pem,truststore.jks,node2-keystore.jks,admin-keystore.jks} ../elasticsearch-node2/elasticsearch-node2-docker/
 cp {root-ca.pem,root-ca-key.pem,node3.pem,node3-key.pem,admin.pem,admin-key.pem,truststore.jks,node3-keystore.jks,admin-keystore.jks} ../elasticsearch-node3/elasticsearch-node3-docker/
 cp {root-ca.pem,root-ca-key.pem,node4.pem,node4-key.pem,admin.pem,admin-key.pem,truststore.jks,node4-keystore.jks,admin-keystore.jks} ../elasticsearch-node4/elasticsearch-node4-docker/
-cp {root-ca.pem,root-ca-key.pem,node5.pem,node4-key.pem,admin.pem,admin-key.pem,truststore.jks,node5-keystore.jks,admin-keystore.jks} ../elasticsearch-node4/elasticsearch-node5-docker/
+cp {root-ca.pem,root-ca-key.pem,node5.pem,node5-key.pem,admin.pem,admin-key.pem,truststore.jks,node5-keystore.jks,admin-keystore.jks} ../elasticsearch-node5/elasticsearch-node5-docker/
 cp {root-ca.pem,root-ca-key.pem,hive.pem,hive-key.pem,admin.pem,admin-key.pem,truststore.jks,hive-keystore.jks,admin-keystore.jks} ../thehive/

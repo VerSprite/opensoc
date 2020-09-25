@@ -6,8 +6,8 @@ prompt = no
 [ req_distinguished_name ]
 countryName                 = US
 stateOrProvinceName         = ST
-localityName               = city
-organizationName           = eminent
+localityName               = Atlanta
+organizationName           = versprite
 commonName                 = versprite-cortex
 [ req_ext ]
 subjectAltName = @alt_names

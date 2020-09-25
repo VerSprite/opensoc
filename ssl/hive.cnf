@@ -6,12 +6,12 @@ prompt = no
 [ req_distinguished_name ]
 countryName                 = US
 stateOrProvinceName         = ST
-localityName               = city
-organizationName           = eminent
-commonName                 = versprite-hive
+localityName               = Atlanta
+organizationName           = versprite
+commonName                 = es-hive
 [ req_ext ]
 subjectAltName = @alt_names
 [alt_names]
-DNS.1   = versprite-hive
-DNS.2   = eminent
+DNS.1   = versprite-es-hive
+DNS.2   = es-hive
 DNS.3   = versprite

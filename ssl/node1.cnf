@@ -6,9 +6,9 @@ prompt = no
 [ req_distinguished_name ]
 countryName                 = US
 stateOrProvinceName         = ST
-localityName               = city
-organizationName           = eminent
-commonName                 = elasticsearch-node1
+localityName               = Atlanta
+organizationName           = versprite
+commonName                 = es-node1
 [ req_ext ]
 subjectAltName = @alt_names
 [alt_names]
