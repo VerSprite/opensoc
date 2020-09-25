@@ -74,7 +74,7 @@ openssl genrsa -out vector-key-temp.pem 4096
 openssl pkcs8 -inform PEM -outform PEM -in vector-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out vector-key.pem
 openssl req -new -key vector.pem -out vector.csr -config vector.cnf
 openssl x509 -req -in vector.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out vector.pem -extfile vector.cnf
-openssl x509 -req -in vector.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out hive.crt -extfile vector.cnf
+openssl x509 -req -in vector.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out vector.crt -extfile vector.cnf
 openssl pkcs12 -export -chain -CAfile root-ca.pem -in vector.crt -inkey vector-key.pem -passout pass:$1 > vector.p12
 
 
